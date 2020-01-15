@@ -1,0 +1,107 @@
+<?php
+if(isset($_POST['submit'])){
+
+session_start();
+
+include_once("connection.php");
+
+if($conn){}
+else{
+    echo"Connection UnSuccesful";
+}
+
+
+mysqli_select_db($conn,'');
+$email = $_POST['email'];
+$password = $_POST['password'];
+
+$q="select * from stores where email='$email' && pwd='$password'";
+
+$result = mysqli_query($conn,$q);
+$row=mysqli_fetch_assoc($result);
+$num = mysqli_num_rows($result);
+
+if($num==1){
+    $_SESSION['id']=$row['id'];
+	$_SESSION['name']=$row['name'];
+	$_SESSION['description']=$row['description'];
+	$_SESSION['imagetext']=$row['imagetext'];
+	$_SESSION['email']=$row['email'];
+	$_SESSION['pincode']=$row['pincode'];
+	$_SESSION['category']=$row['category'];
+	$_SESSION['sreference_code']=$row['sreference_code'];
+	$_SESSION['pwd']=$row['pwd'];
+	$_SESSION['location']=$row['location'];
+	$_SESSION['about']=$row['about'];
+
+	echo"<script> alert('Successfully Logged in')</script>"; 
+    echo "<script> window.location.href='comp.php' </script>";
+
+}
+else{
+    echo"<script> alert('Please TRY AGAIN!!')</script>";
+    echo "<script> window.location.href='login.php' </script>";
+}
+}
+?>
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+       <!-- GOOGLE WEB FONT -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+
+    <!-- BASE CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+	<link href="css/vendors.css" rel="stylesheet">
+
+    <!-- YOUR CUSTOM CSS -->
+    <link href="css/custom.css" rel="stylesheet">
+
+</head>
+
+<body id="login_bg">
+	
+	<nav id="menu" class="fake_menu"></nav>
+	
+	<div id="preloader">
+		<div data-loader="circle-side"></div>
+	</div>
+	<!-- End Preload -->
+	
+	<div id="login">
+		<aside>
+			<figure>
+				<a href="index.html"><img src="img/lts_logo1.png" width="170" height="100" alt="" class="logo_sticky"></a>
+			</figure>
+			  <form action="login.php" method ="post"><br>
+		
+				<div class="form-group">
+					<input type="email" class="form-control" name="email" id="email" placeholder="Email">
+					<i class="icon_mail_alt"></i>
+				</div>
+				<div class="form-group">
+					<input type="password" class="form-control" name="password" id="password" value="" placeholder="Password">
+					<i class="icon_lock_alt"></i>
+				</div>
+				<div class="clearfix add_bottom_30">
+         
+         <button type="submit" class="btn_1 rounded full-width" name="submit">Login to LTS Online</button>
+				
+						</form>
+
+				<div class="text-center add_top_10">New to LTS? <strong><a href="add_store.php">Sign up!</a></strong></div>
+			<div class="copy">© 2019 LTS</div>
+		</aside>
+	<!-- /login -->
+		
+	<!-- COMMON SCRIPTS -->
+    <script src="js/common_scripts.js"></script>
+	<script src="js/functions.js"></script>
+	<script src="assets/validate.js"></script>
+  
+</body>
+</html>
